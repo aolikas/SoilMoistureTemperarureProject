@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SoilMoistureTemperarureProject</string>
+    <string name="main_activity_sing_up">SING UP</string>
+    <string name="main_activity_login">LOGIN</string>
+    <string name="registration_email">Enter your Email</string>
+    <string name="registration_password">Enter your password</string>
+    <string name="registration_btn">Registration</string>
+    <string name="login_btn">Login</string>
+    <string name="main_logout">Logout</string>
+</resources>

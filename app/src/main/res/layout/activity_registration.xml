@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_app1"
+    tools:context=".Auth.RegistrationActivity">
+
+    <EditText
+        android:id="@+id/et_reg_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColorHint="@color/purple_700"
+        android:hint="@string/registration_email"/>
+
+    <EditText
+        android:id="@+id/et_reg_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColorHint="@color/purple_700"
+        android:hint="@string/registration_password"/>
+
+  <Button
+      android:id="@+id/btn_registration"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="100dp"
+      android:layout_marginEnd="30dp"
+      android:layout_marginStart="30dp"
+      android:textAppearance="@style/TextAppearance.AppCompat.Large"
+      android:text="@string/registration_btn"
+      android:textColor="@color/white"
+      android:background="@drawable/btn_sigh_up"/>
+
+</LinearLayout>

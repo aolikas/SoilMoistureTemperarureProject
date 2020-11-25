@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "270442159406",
+    "firebase_url": "https://soilmoisturetemperatureproject.firebaseio.com",
+    "project_id": "soilmoisturetemperatureproject",
+    "storage_bucket": "soilmoisturetemperatureproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270442159406:android:9a483a5028d2c57564aebf",
+        "android_client_info": {
+          "package_name": "my.e.soilmoisturetemperarureproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270442159406-2tfse0lq0t8rpdga7n5bfps61it74tpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "my.e.soilmoisturetemperarureproject",
+            "certificate_hash": "32078cf2c3f5485e0d19fc3798d43181275adc8b"
+          }
+        },
+        {
+          "client_id": "270442159406-afetoou1mmtm2958914vofep7bpvscrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0PVNlCLAzeht2BhKEJNs8P4S3eD80iLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270442159406-afetoou1mmtm2958914vofep7bpvscrf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
