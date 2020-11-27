@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import my.e.soilmoisturetemperarureproject.MainActivity;
 import my.e.soilmoisturetemperarureproject.R;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -70,30 +71,5 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
-    public static class MainActivity extends AppCompatActivity {
 
-        private Button btnLogout;
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
-          /*  btnLogout = findViewById(R.id.btn_logout);
-
-        //    btnLogout.setOnClickListener(new View.OnClickListener() {
-          //      @Override
-           //     public void onClick(View view) {
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, StartActivity.class));
-                    finish();
-                }
-            });
-
-            FirebaseDatabase.getInstance().getReference().child("Knowledge").child("Android").setValue("llla");
         }
-    }*/
-        }
-    }
-}

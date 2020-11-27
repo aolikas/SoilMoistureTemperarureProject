@@ -7,4 +7,9 @@
     <string name="registration_btn">Registration</string>
     <string name="login_btn">Login</string>
     <string name="main_logout">Logout</string>
+    <string name="item_data_sensor_name">SENSOR 1</string>
+    <string name="item_data_condition">Condition</string>
+    <string name="item_data_temperature">Temperature</string>
+    <string name="item_data_date">Date</string>
+    <string name="item_sensor_description">Description</string>
 </resources>
