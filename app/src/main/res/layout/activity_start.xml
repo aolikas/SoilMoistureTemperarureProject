@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_weight="100"
     tools:context=".Auth.StartActivity">
@@ -43,6 +42,5 @@
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:text="@string/main_activity_login"/>
-
     </LinearLayout>
 </LinearLayout>

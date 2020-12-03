@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SoilMoistureTemperarureProject</string>
+    <string name="app_name">Soil Moisture Project</string>
     <string name="main_activity_sing_up">SING UP</string>
     <string name="main_activity_login">LOGIN</string>
     <string name="registration_email">Enter your Email</string>
@@ -12,4 +12,8 @@
     <string name="item_data_temperature">Temperature</string>
     <string name="item_data_date">Date</string>
     <string name="item_sensor_description">Description</string>
+    <string name="menu_main_log_out">Log Out</string>
+    <string name="menu_start_reset_password">Reset Password</string>
+    <string name="reset_password_btn">Reset Password</string>
+    <string name="menu_main_delete_account">Delete Account</string>
 </resources>

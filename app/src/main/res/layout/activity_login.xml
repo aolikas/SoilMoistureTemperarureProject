@@ -12,18 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColorHint="@color/purple_500"
-        android:hint="@string/registration_email"/>
+        android:hint="@string/registration_email"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/et_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColorHint="@color/purple_500"
-        android:hint="@string/registration_password"/>
+        android:hint="@string/registration_password"
+        android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/btn_login"
@@ -36,5 +40,15 @@
         android:text="@string/login_btn"
         android:textColor="@color/white"
         android:background="@drawable/btn_login"/>
+
+    <ProgressBar
+        android:id="@+id/prg_bar_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
+
 
 </LinearLayout>
