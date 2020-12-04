@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background_app1"
+    android:orientation="vertical"
     tools:context=".Auth.RegistrationActivity">
+
+    <EditText
+        android:id="@+id/et_reg_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:hint="@string/registration_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColorHint="@color/purple_700" />
 
     <EditText
         android:id="@+id/et_reg_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColorHint="@color/purple_700"
         android:hint="@string/registration_email"
-        android:inputType="textEmailAddress"/>
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColorHint="@color/purple_700" />
 
     <EditText
         android:id="@+id/et_reg_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColorHint="@color/purple_700"
         android:hint="@string/registration_password"
-        android:inputType="textPassword"/>
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColorHint="@color/purple_700" />
 
-  <Button
-      android:id="@+id/btn_registration"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="100dp"
-      android:layout_marginEnd="30dp"
-      android:layout_marginStart="30dp"
-      android:textAppearance="@style/TextAppearance.AppCompat.Large"
-      android:text="@string/registration_btn"
-      android:textColor="@color/white"
-      android:background="@drawable/btn_sigh_up"/>
+    <Button
+        android:id="@+id/btn_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/btn_sigh_up"
+        android:text="@string/registration_btn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white" />
 
     <ProgressBar
         android:id="@+id/prg_bar_registration"
+        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

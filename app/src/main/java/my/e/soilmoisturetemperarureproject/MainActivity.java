@@ -18,11 +18,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +44,9 @@ import my.e.soilmoisturetemperarureproject.Model.SensorsData;
 
 import static my.e.soilmoisturetemperarureproject.AppNotification.CHANNEL_1_ID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorCreateDialog.SensorCreateDialogListener {
+
+    private FloatingActionButton fab;
 
     private FirebaseAuth auth;
     private FirebaseUser user;
@@ -51,11 +56,21 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private NotificationManagerCompat notificationManager;
+    private String mSensorName;
+    private String mSensorDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fab = findViewById(R.id.main_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               openCreateSensorDialog();
+            }
+        });
 
         mRecyclerView = findViewById(R.id.main_recycler_view);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -64,14 +79,20 @@ public class MainActivity extends AppCompatActivity {
 
         mRef = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
-        user =auth.getCurrentUser();
+        user = auth.getCurrentUser();
         mSensorList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
-
         clearAll();
         getDataFromFirebase();
 
+
     }
+
+    private void openCreateSensorDialog() {
+        SensorCreateDialog sensorCreateDialog = new SensorCreateDialog();
+        sensorCreateDialog.show(getSupportFragmentManager(), "sensor dialog");
+    }
+
 
     private void getDataFromFirebase() {
 
@@ -80,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                if(mSensorList != null) {
+                if (mSensorList != null) {
                     mSensorList.clear();
                 }
                 mSensorList = new ArrayList<>();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    SensorsData  sensorsData = new SensorsData();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    SensorsData sensorsData = new SensorsData();
                     sensorsData.setDate(dataSnapshot.child("Date").getValue().toString());
                     sensorsData.setHumidityCondition(dataSnapshot.child("Condition").getValue().toString());
                     mSensorList.add(sensorsData);
@@ -103,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-   public void findResultAndSendNotification(String search, List<SensorsData> list) {
-        for(SensorsData data : list) {
-            if(data.getHumidityCondition().contains(search)) {
+    public void findResultAndSendNotification(String search, List<SensorsData> list) {
+        for (SensorsData data : list) {
+            if (data.getHumidityCondition().contains(search)) {
                 Toast.makeText(this, "HeYYYYY", Toast.LENGTH_SHORT).show();
 
                 Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
@@ -116,20 +137,18 @@ public class MainActivity extends AppCompatActivity {
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .build();
 
-                notificationManager.notify(1,notification);
+                notificationManager.notify(1, notification);
 
 
             }
 
         }
-   }
-
-
+    }
 
     private void clearAll() {
-        if(mSensorList != null) {
+        if (mSensorList != null) {
             mSensorList.clear();
-            if(mAdapter != null) {
+            if (mAdapter != null) {
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -195,8 +214,13 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
                 return true;
 
-                default:
+            default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void applyData(String sensorName, String sensorDescription) {
+
     }
 }

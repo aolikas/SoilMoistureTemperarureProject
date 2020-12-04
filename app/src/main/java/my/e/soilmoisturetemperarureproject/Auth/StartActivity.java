@@ -1,65 +1,51 @@
 package my.e.soilmoisturetemperarureproject.Auth;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import my.e.soilmoisturetemperarureproject.R;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnSignUp, btnLogin;
+    private Button btnLogin;
+    private TextView txtForgotPassword, txtRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        btnSignUp = findViewById(R.id.btn_start_sign_up);
         btnLogin = findViewById(R.id.btn_start_login);
+        txtForgotPassword = findViewById(R.id.txt_start_forgot_password);
+        txtRegister = findViewById(R.id.txt_start_register);
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StartActivity.this, RegistrationActivity.class));
-               // finish();
-            }
-        });
+        btnLogin.setOnClickListener(this);
+        txtRegister.setOnClickListener(this);
+        txtForgotPassword.setOnClickListener(this);
+    }
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_start_login:
                 startActivity(new Intent(StartActivity.this, LoginActivity.class));
-               // finish();
-            }
-        });
-
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.start_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.reset_password:
+                break;
+            case R.id.txt_start_register:
+                startActivity(new Intent(StartActivity.this, RegistrationActivity.class));
+                break;
+            case R.id.txt_start_forgot_password:
                 startActivity(new Intent(StartActivity.this, ResetPasswordActivity.class));
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
     }
 }

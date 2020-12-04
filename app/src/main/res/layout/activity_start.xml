@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_weight="100"
+    android:orientation="vertical"
     tools:context=".Auth.StartActivity">
 
     <ImageView
@@ -14,24 +14,12 @@
         android:layout_weight="70"
         android:src="@drawable/registration_icon" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="30"
         android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_start_sign_up"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_sigh_up"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="@string/main_activity_sing_up"/>
+        android:paddingEnd="30dp">
 
         <Button
             android:id="@+id/btn_start_login"
@@ -39,8 +27,31 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_login"
-            android:textColor="@color/white"
+            android:text="@string/start_activity_login"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:text="@string/main_activity_login"/>
-    </LinearLayout>
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/txt_start_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_start_login"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/start_activity_forgot_password"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/purple_200" />
+
+        <TextView
+            android:id="@+id/txt_start_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_start_login"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/start_activity_register"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/purple_500" />
+    </RelativeLayout>
 </LinearLayout>
