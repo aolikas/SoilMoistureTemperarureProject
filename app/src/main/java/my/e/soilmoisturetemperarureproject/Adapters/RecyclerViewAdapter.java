@@ -16,17 +16,18 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import my.e.soilmoisturetemperarureproject.Model.Data;
 import my.e.soilmoisturetemperarureproject.Model.SensorsData;
 import my.e.soilmoisturetemperarureproject.R;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<SensorsData> sensorsList;
+    private ArrayList<Data> sensorsList;
     private OnItemClickListener listener;
 
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<SensorsData> data) {
+    public RecyclerViewAdapter(Context mContext, ArrayList<Data> data) {
         this.mContext = mContext;
         this.sensorsList = data;
     }
@@ -42,9 +43,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        // holder.name.setText(String.valueOf(sensorsList.get(position)));
-        holder.date.setText(sensorsList.get(position).getDate());
+
         holder.condition.setText(sensorsList.get(position).getHumidityCondition());
-        holder.description.setText(sensorsList.get(position).getDescription());
+        holder.description.setText(sensorsList.get(position).getSensorDescription());
+        holder.temperature.setText(String.valueOf(sensorsList.get(position).getTemperature()));
 
         //holder..setText(String.valueOf(sensorsList.get(position).getHumidity()));
     }
@@ -56,7 +58,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
          private final TextView name;
-         private final TextView date;
          private final TextView condition;
          private final TextView description;
          private final TextView temperature;
@@ -66,12 +67,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             name = itemView.findViewById(R.id.item_name);
-            date = itemView.findViewById(R.id.item_date);
             condition = itemView.findViewById(R.id.item_humidity);
             temperature = itemView.findViewById(R.id.item_temperature);
             description = itemView.findViewById(R.id.item_description);
-
-
         }
         }
 

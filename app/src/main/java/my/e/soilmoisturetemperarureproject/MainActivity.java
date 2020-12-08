@@ -19,12 +19,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,19 +39,19 @@ import java.util.List;
 
 import my.e.soilmoisturetemperarureproject.Adapters.RecyclerViewAdapter;
 import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
+import my.e.soilmoisturetemperarureproject.Model.Data;
 import my.e.soilmoisturetemperarureproject.Model.SensorsData;
 
 import static my.e.soilmoisturetemperarureproject.AppNotification.CHANNEL_1_ID;
 
-public class MainActivity extends AppCompatActivity implements SensorCreateDialog.SensorCreateDialogListener {
+public class MainActivity extends AppCompatActivity  {
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mRef;
+    private FirebaseUser mUser;
 
     private FloatingActionButton fab;
-
-    private FirebaseAuth auth;
-    private FirebaseUser user;
-
-    private DatabaseReference mRef;
-    private ArrayList<SensorsData> mSensorList;
+    private ArrayList<Data> mSensorList;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private NotificationManagerCompat notificationManager;
@@ -78,8 +77,7 @@ public class MainActivity extends AppCompatActivity implements SensorCreateDialo
         mRecyclerView.setHasFixedSize(true);
 
         mRef = FirebaseDatabase.getInstance().getReference();
-        auth = FirebaseAuth.getInstance();
-        user = auth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
         mSensorList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
         clearAll();
@@ -95,8 +93,11 @@ public class MainActivity extends AppCompatActivity implements SensorCreateDialo
 
 
     private void getDataFromFirebase() {
+        mUser = mAuth.getCurrentUser();
+        assert mUser != null;
+        String userId = mUser.getUid();
 
-        Query query = mRef.child("SoilSensors");
+        Query query = mRef.child("Users").child(userId);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -106,11 +107,14 @@ public class MainActivity extends AppCompatActivity implements SensorCreateDialo
                 }
                 mSensorList = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    SensorsData sensorsData = new SensorsData();
-                    sensorsData.setDate(dataSnapshot.child("Date").getValue().toString());
-                    sensorsData.setHumidityCondition(dataSnapshot.child("Condition").getValue().toString());
+                    Data sensorsData = new Data();
+//                    sensorsData.setTemperature(Float.parseFloat(dataSnapshot.child("temperature").getValue().toString()));
+                    sensorsData.setHumidityCondition(dataSnapshot.child("condition").getValue().toString());
+
+                  //  sensorsData.setDate(dataSnapshot.child("Temperature").getValue().toString());
+                    //sensorsData.setHumidityCondition(dataSnapshot.child("Condition").getValue().toString());
                     mSensorList.add(sensorsData);
-                    findResultAndSendNotification("Dry", mSensorList);
+                    //findResultAndSendNotification("Dry", mSensorList);
                 }
                 mAdapter = new RecyclerViewAdapter(getApplicationContext(), mSensorList);
                 mRecyclerView.setAdapter(mAdapter);
@@ -164,54 +168,15 @@ public class MainActivity extends AppCompatActivity implements SensorCreateDialo
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.log_out:
-
-                auth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
-                Intent intent = (new Intent(MainActivity.this, StartActivity.class));
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
+                logOutUser();
                 return true;
             case R.id.delete_account:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("Are your sure?");
-                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(MainActivity.this,
-                                            "Account Deleted", Toast.LENGTH_SHORT).show();
-                                    Intent intent = (new Intent(MainActivity.this, StartActivity.class));
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(MainActivity.this,
-                                            task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                    }
-                });
-                builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                deleteUserAccount();
                 return true;
 
             default:
@@ -219,8 +184,50 @@ public class MainActivity extends AppCompatActivity implements SensorCreateDialo
         }
     }
 
-    @Override
-    public void applyData(String sensorName, String sensorDescription) {
+    private void logOutUser() {
+        mAuth.getInstance().signOut();
+        Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
+        Intent intent = (new Intent(MainActivity.this, StartActivity.class));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 
+    private void deleteUserAccount() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage("Are your sure?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this,
+                                    "Account Deleted", Toast.LENGTH_SHORT).show();
+                            Intent intent = (new Intent(MainActivity.this, StartActivity.class));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -49,7 +49,8 @@ public class RegistrationActivity extends AppCompatActivity {
             String txtPassword = etPassword.getText().toString();
             progressBar.setVisibility(View.VISIBLE);
 
-            if (TextUtils.isEmpty(txtName) || TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)) {
+            if (TextUtils.isEmpty(txtName) ||
+                    TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)) {
                 Toast.makeText(RegistrationActivity.this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
             } else if (!Patterns.EMAIL_ADDRESS.matcher(txtEmail).matches()) {
                 etEmail.setError("Please provide valid email");
@@ -57,13 +58,13 @@ public class RegistrationActivity extends AppCompatActivity {
             } else if (txtPassword.length() < 6) {
                 Toast.makeText(RegistrationActivity.this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
             } else {
-                register(txtName, txtEmail, txtPassword);
+                register(txtName,txtEmail, txtPassword);
             }
         });
     }
 
-    private void register(String txtName, String txtEmail, String txtPassword) {
-        mAuth.createUserWithEmailAndPassword(txtEmail, txtPassword)
+    private void register(String name,String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -74,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             String userId = user.getUid();
                             mRef = FirebaseDatabase.getInstance().getReference("Users")
                                     .child(userId);
-                            User currentUser = new User(userId, txtName, txtEmail);
+                            User currentUser = new User(name, email);
                             mRef.setValue(currentUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

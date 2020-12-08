@@ -27,4 +27,5 @@
     <string name="dialog_title">Add a new sensor</string>
     <string name="dialog_create_et_name">Name</string>
     <string name="dialog_create_et_description">Description</string>
+    <string name="registration_sensor_name">Sensor Name</string>
 </resources>

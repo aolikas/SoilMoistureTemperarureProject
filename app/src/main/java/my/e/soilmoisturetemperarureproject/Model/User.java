@@ -2,46 +2,64 @@ package my.e.soilmoisturetemperarureproject.Model;
 
 public class User {
 
-    public String userId;
-    public String userName;
-    public String userEmail;
-    public String sensorName;
-    public Data sensorData;
+    private String userId;
+    private String userName;
+    private String userEmail;
+    private SensorsData sensorsData;
 
     public User() {
     }
 
-    public User(String userId, String userName, String userEmail) {
-        this.userId = userId;
+
+    public User(String userName, String userEmail) {
         this.userName = userName;
         this.userEmail = userEmail;
     }
 
-    public User(String userId, String userName, String userEmail, String sensorName) {
-        this.userId = userId;
+    public User(String userName, String userEmail, String sensorName, String sensorDescription,
+                String sensorMoistureCondition, String sensorTemperature) {
         this.userName = userName;
         this.userEmail = userEmail;
-        this.sensorName = sensorName;
+        sensorsData = new SensorsData(sensorName, sensorDescription, sensorMoistureCondition, sensorTemperature);
+
     }
 
-    public User(String userId, String userName, String userEmail, String sensorName,
-                String humidityCondition, String sensorDescription, int humidity, float temperature) {
-        this.userId = userId;
+    public User(String userName, String userEmail, String sensorDescription,
+                String sensorMoistureCondition, String sensorTemperature) {
         this.userName = userName;
         this.userEmail = userEmail;
-        this.sensorName = sensorName;
-        sensorData = new Data(humidityCondition, sensorDescription, humidity,temperature);
+        sensorsData = new SensorsData(sensorDescription, sensorMoistureCondition, sensorTemperature);
     }
 
-    public User(String userId, String sensorName,
-                String humidityCondition, String sensorDescription, int humidity, float temperature) {
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
         this.userId = userId;
-        this.userName = userName;
-        this.userEmail = userEmail;
-        this.sensorName = sensorName;
-        sensorData = new Data(humidityCondition, sensorDescription, humidity,temperature);
     }
 
+    public String getUserName() {
+        return userName;
+    }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public SensorsData getSensorsData() {
+        return sensorsData;
+    }
+
+    public void setSensorsData(SensorsData sensorsData) {
+        this.sensorsData = sensorsData;
+    }
 }
