@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="70"
-        android:src="@drawable/registration_icon" />
+        android:src="@drawable/registration_icon"
+        tools:ignore="ContentDescription" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,37 +23,43 @@
         android:paddingStart="30dp"
         android:paddingEnd="30dp">
 
-        <Button
-            android:id="@+id/btn_start_login"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start_btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_login"
-            android:text="@string/start_activity_login"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="@string/btn_login"
+            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:cornerRadius="15dp" />
 
-        <TextView
-            android:id="@+id/txt_start_forgot_password"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start_btn_forgot_password"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_start_login"
+            android:layout_below="@+id/start_btn_login"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:text="@string/start_activity_forgot_password"
+            android:text="@string/btn_forgot_password"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/purple_200" />
+            android:textColor="@color/gray" />
 
-        <TextView
-            android:id="@+id/txt_start_register"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start_btn_register"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_start_login"
+            android:layout_below="@+id/start_btn_login"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="30dp"
-            android:text="@string/start_activity_register"
+            android:layout_marginEnd="20dp"
+            android:text="@string/btn_register"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/purple_500" />
+            android:textColor="@color/orange" />
     </RelativeLayout>
 </LinearLayout>

@@ -53,8 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void loginUser(String email, String password) {
@@ -76,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
 
     //init the activity widgets
     private void initWidgets() {
-        etEmail = findViewById(R.id.et_login_email);
-        etPassword = findViewById(R.id.et_login_password);
-        progressBar = findViewById(R.id.prg_bar_login);
-        btnLogin = findViewById(R.id.btn_login);
+        etEmail = findViewById(R.id.login_et_email);
+        etPassword = findViewById(R.id.login_et_password);
+        progressBar = findViewById(R.id.login_progress_bar);
+        btnLogin = findViewById(R.id.login_btn_login);
         progressBar.setVisibility(View.GONE);
     }
 }

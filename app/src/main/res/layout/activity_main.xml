@@ -10,16 +10,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline"
-        android:backgroundTint="@color/red"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
-        android:contentDescription="@string/main_fab_description" />
+        android:backgroundTint="@color/red"
+        android:contentDescription="@string/fab_description"
+        android:src="@drawable/ic_baseline" />
 </RelativeLayout>

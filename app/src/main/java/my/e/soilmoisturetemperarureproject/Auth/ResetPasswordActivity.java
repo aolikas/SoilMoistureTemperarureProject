@@ -31,9 +31,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        etEmail = findViewById(R.id.et_reset_email);
-        Button btnReset = findViewById(R.id.btn_reset);
-        progressBar = findViewById(R.id.prg_bar_reset);
+        etEmail = findViewById(R.id.reset_et_email);
+        Button btnReset = findViewById(R.id.reset_btn_reset);
+        progressBar = findViewById(R.id.reset_progress_bar);
 
         mAuth = FirebaseAuth.getInstance();
         btnReset.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,56 +8,57 @@
     android:orientation="vertical"
     tools:context=".Auth.RegistrationActivity">
 
-    <EditText
-        android:id="@+id/et_reg_name"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/reg_et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center"
-        android:hint="@string/registration_name"
+        android:hint="@string/et_hint_name"
         android:importantForAutofill="no"
         android:inputType="text"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColorHint="@color/purple_700" />
+        android:textColorHint="@color/blue" />
 
-    <EditText
-        android:id="@+id/et_reg_email"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/reg_et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:hint="@string/registration_email"
+        android:hint="@string/et_hint_email"
         android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColorHint="@color/purple_700" />
+        android:textColorHint="@color/blue" />
 
-    <EditText
-        android:id="@+id/et_reg_password"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/reg_et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:hint="@string/registration_password"
+        android:hint="@string/et_hint_password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColorHint="@color/purple_700" />
+        android:textColorHint="@color/blue" />
 
-    <Button
-        android:id="@+id/btn_registration"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reg_btn_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="100dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/btn_sigh_up"
-        android:text="@string/registration_btn"
+        android:layout_marginEnd="20dp"
+        android:text="@string/btn_register"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        app:cornerRadius="15dp" />
 
     <ProgressBar
-        android:id="@+id/prg_bar_registration"
+        android:id="@+id/reg_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject;
+package my.e.soilmoisturetemperarureproject.Dialogs;
 
 import android.app.AlertDialog;
 
@@ -6,6 +6,7 @@ import android.app.Dialog;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -21,7 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import my.e.soilmoisturetemperarureproject.Model.Data;
+import java.util.Objects;
+
+import my.e.soilmoisturetemperarureproject.Model.UserData;
+import my.e.soilmoisturetemperarureproject.R;
 
 
 public class SensorCreateDialog extends AppCompatDialogFragment {
@@ -36,7 +40,7 @@ public class SensorCreateDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_create_sensor, null);
 
         builder.setView(view)
@@ -56,15 +60,18 @@ public class SensorCreateDialog extends AppCompatDialogFragment {
                         assert user != null;
                         String userId = user.getUid();
                         mRef = FirebaseDatabase.getInstance().getReference("Users")
-                                .child(userId);
-                        DatabaseReference ref = mRef.child(name);
-                       Data sensorsData = new Data(description);
-                        ref.setValue(sensorsData);
+                                .child(userId).child("userSensors");
+                        String key = mRef.push().getKey();
+
+                        UserData currentUser = new UserData(name, description, null);
+                        assert key != null;
+                        mRef.child(key).setValue(currentUser);
+
                     }
                 });
 
-        etSensorName = view.findViewById(R.id.et_dialog_sensor_name);
-        etSensorDescription = view.findViewById(R.id.et_dialog_sensor_description);
+        etSensorName = view.findViewById(R.id.dialog_create_et_sensor_name);
+        etSensorDescription = view.findViewById(R.id.dialog_create_et_sensor_description);
 
         return builder.create();
     }

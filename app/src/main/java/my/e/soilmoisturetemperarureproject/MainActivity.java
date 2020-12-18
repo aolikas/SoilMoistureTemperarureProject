@@ -3,67 +3,57 @@ package my.e.soilmoisturetemperarureproject;
 import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-import my.e.soilmoisturetemperarureproject.Adapters.RecyclerViewAdapter;
+import my.e.soilmoisturetemperarureproject.Adapters.FirebaseViewHolder;
 import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
-import my.e.soilmoisturetemperarureproject.Model.Data;
-import my.e.soilmoisturetemperarureproject.Model.SensorsData;
-
-import static my.e.soilmoisturetemperarureproject.AppNotification.CHANNEL_1_ID;
+import my.e.soilmoisturetemperarureproject.Dialogs.SensorCreateDialog;
+import my.e.soilmoisturetemperarureproject.Dialogs.ShowUserInformation;
+import my.e.soilmoisturetemperarureproject.Model.UserData;
 
 public class MainActivity extends AppCompatActivity  {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
-    private FirebaseUser mUser;
-
-    private FloatingActionButton fab;
-    private ArrayList<Data> mSensorList;
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapter mAdapter;
-    private NotificationManagerCompat notificationManager;
-    private String mSensorName;
-    private String mSensorDescription;
+    private FirebaseRecyclerOptions<UserData> mOptions;
+    private FirebaseRecyclerAdapter<UserData, FirebaseViewHolder> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fab = findViewById(R.id.main_fab);
+        FloatingActionButton fab = findViewById(R.id.main_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,63 +61,46 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        initRecyclerView();
+        readAllSensors();
+    }
+
+    private void initRecyclerView() {
         mRecyclerView = findViewById(R.id.main_recycler_view);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        mRef = FirebaseDatabase.getInstance().getReference();
+
+    private void readAllSensors() {
         mAuth = FirebaseAuth.getInstance();
-        mSensorList = new ArrayList<>();
-        notificationManager = NotificationManagerCompat.from(this);
-        clearAll();
-        getDataFromFirebase();
 
-
-    }
-
-    private void openCreateSensorDialog() {
-        SensorCreateDialog sensorCreateDialog = new SensorCreateDialog();
-        sensorCreateDialog.show(getSupportFragmentManager(), "sensor dialog");
-    }
-
-
-    private void getDataFromFirebase() {
-        mUser = mAuth.getCurrentUser();
+        FirebaseUser mUser = mAuth.getCurrentUser();
         assert mUser != null;
         String userId = mUser.getUid();
 
-        Query query = mRef.child("Users").child(userId);
-        query.addValueEventListener(new ValueEventListener() {
+        mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("userSensors");
+        mRef.keepSynced(true);
+
+        mOptions = new FirebaseRecyclerOptions.Builder<UserData>().setQuery(mRef,UserData.class).build();
+        mAdapter = new FirebaseRecyclerAdapter<UserData, FirebaseViewHolder>(mOptions) {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (mSensorList != null) {
-                    mSensorList.clear();
-                }
-                mSensorList = new ArrayList<>();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Data sensorsData = new Data();
-//                    sensorsData.setTemperature(Float.parseFloat(dataSnapshot.child("temperature").getValue().toString()));
-                    sensorsData.setHumidityCondition(dataSnapshot.child("condition").getValue().toString());
-
-                  //  sensorsData.setDate(dataSnapshot.child("Temperature").getValue().toString());
-                    //sensorsData.setHumidityCondition(dataSnapshot.child("Condition").getValue().toString());
-                    mSensorList.add(sensorsData);
-                    //findResultAndSendNotification("Dry", mSensorList);
-                }
-                mAdapter = new RecyclerViewAdapter(getApplicationContext(), mSensorList);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+            protected void onBindViewHolder(@NonNull FirebaseViewHolder firebaseViewHolder, int i, @NonNull UserData userData) {
+                firebaseViewHolder.sensorName.setText(String.format("%s", userData.getUserSensorName()));
+                firebaseViewHolder.sensorDescription.setText(userData.getUserSensorDescription());
             }
 
+            @NonNull
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public FirebaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data,parent, false);
+                return new FirebaseViewHolder(view);
             }
-        });
+        };
+        mRecyclerView.setAdapter(mAdapter);
     }
 
+    /*
     public void findResultAndSendNotification(String search, List<SensorsData> list) {
         for (SensorsData data : list) {
             if (data.getHumidityCondition().contains(search)) {
@@ -148,17 +121,8 @@ public class MainActivity extends AppCompatActivity  {
 
         }
     }
+     */
 
-    private void clearAll() {
-        if (mSensorList != null) {
-            mSensorList.clear();
-            if (mAdapter != null) {
-                mAdapter.notifyDataSetChanged();
-            }
-        }
-
-        mSensorList = new ArrayList<>();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -179,13 +143,29 @@ public class MainActivity extends AppCompatActivity  {
                 deleteUserAccount();
                 return true;
 
+            case R.id.show_account_info:
+                showAccountDetailsDialog();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void openCreateSensorDialog() {
+        SensorCreateDialog sensorCreateDialog = new SensorCreateDialog();
+        sensorCreateDialog.show(getSupportFragmentManager(), "sensor dialog");
+    }
+
+
+    private void showAccountDetailsDialog() {
+        ShowUserInformation showUserInformation = new ShowUserInformation();
+        showUserInformation.show(getSupportFragmentManager(), "userInformationDialog");
+    }
+
+
     private void logOutUser() {
-        mAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
         Intent intent = (new Intent(MainActivity.this, StartActivity.class));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -201,6 +181,7 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 FirebaseUser user = mAuth.getCurrentUser();
+                assert user != null;
                 user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -214,7 +195,7 @@ public class MainActivity extends AppCompatActivity  {
                             finish();
                         } else {
                             Toast.makeText(MainActivity.this,
-                                    task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -229,5 +210,17 @@ public class MainActivity extends AppCompatActivity  {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 }

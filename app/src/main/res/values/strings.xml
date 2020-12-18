@@ -1,31 +1,33 @@
 <resources>
-    <string name="app_name">Soil Moisture Project</string>
-    <string name="start_activity_sing_up">SING UP</string>
-    <string name="start_activity_login">LOGIN</string>
-    <string name="registration_email">Email</string>
-    <string name="registration_password">Password</string>
-    <string name="registration_btn">Register User</string>
-    <string name="login_btn">Login</string>
-    <string name="main_logout">Logout</string>
+    <string name="app_name">Soil Moisture App</string>
+
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_forgot_password">Forgot password?</string>
+
+    <string name="et_hint_email">Email</string>
+    <string name="et_hint_password">Password</string>
+    <string name="et_hint_name">Name</string>
+
+
     <string name="item_data_sensor_name">SENSOR 1</string>
-    <string name="item_data_condition">Condition</string>
-    <string name="item_data_temperature">Temperature</string>
-    <string name="item_data_date">Date</string>
-    <string name="item_sensor_description">Description</string>
+    <string name="item_data_sensor_condition">Condition</string>
+    <string name="item_data_sensor_temperature">Temperature</string>
+    <string name="item_data_sensor_description">Description</string>
+
     <string name="menu_main_log_out">Log Out</string>
-    <string name="menu_start_reset_password">Reset Password</string>
-    <string name="reset_password_btn">Reset Password</string>
     <string name="menu_main_delete_account">Delete Account</string>
-    <string name="start_activity_forgot_password">Forgot password?</string>
-    <string name="start_activity_register">Register</string>
-    <string name="registration_name">Name</string>
-    <string name="login_name">Name</string>
-    <string name="login_email">Email</string>
-    <string name="login_password">Password</string>
-    <string name="reset_password_email">Email</string>
-    <string name="main_fab_description">Add new sensor</string>
-    <string name="dialog_title">Add a new sensor</string>
-    <string name="dialog_create_et_name">Name</string>
-    <string name="dialog_create_et_description">Description</string>
-    <string name="registration_sensor_name">Sensor Name</string>
+    <string name="menu_main_account_details">Account details</string>
+
+    <string name="fab_description">Add new sensor</string>
+
+    <string name="dialog_create_title">Add a new sensor</string>
+    <string name="dialog_create_et_sensor_name">Name</string>
+    <string name="dialog_create_et_sensor_description">Description</string>
+
+    <string name="dialog_show_user_title">Account Information</string>
+    <string name="dialog_show_user_name">User Name:</string>
+    <string name="dialog_show_user_email">User Email:</string>
+    <string name="dialog_show_user_unique_id">User unique Id:</string>
 </resources>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp"
     android:layout_margin="8dp"
-    android:id="@+id/item_card_view">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/item_data_sensor_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,50 +24,43 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
-            android:id="@+id/item_date"
+            android:id="@+id/item_data_sensor_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingTop="10dp"
-            android:text="@string/item_data_date"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <TextView
-            android:id="@+id/item_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="10dp"
-            android:text="@string/item_sensor_description"
+            android:text="@string/item_data_sensor_description"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="100"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="DisableBaselineAlignment">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:orientation="vertical"
-                tools:ignore="NestedWeights">
+                tools:ignore="NestedWeights,UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/humidity_icon" />
+                    android:src="@drawable/humidity_icon"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/item_humidity"
+                    android:id="@+id/item_data_sensor_moisture_condition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:gravity="center"
-                    android:text="@string/item_data_condition"
+                    android:text="@string/item_data_sensor_condition"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             </LinearLayout>
@@ -77,22 +70,23 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:orientation="vertical"
-                tools:ignore="NestedWeights">
+                tools:ignore="NestedWeights,UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:src="@drawable/temperature_icon" />
+                    android:src="@drawable/temperature_icon"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:id="@+id/item_temperature"
+                    android:id="@+id/item_data_sensor_temperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:gravity="center"
-                    android:text="@string/item_data_temperature"
+                    android:text="@string/item_data_sensor_temperature"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
             </LinearLayout>
         </LinearLayout>

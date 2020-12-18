@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Objects;
 
 import my.e.soilmoisturetemperarureproject.MainActivity;
-import my.e.soilmoisturetemperarureproject.Model.User;
+import my.e.soilmoisturetemperarureproject.Model.UserData;
 import my.e.soilmoisturetemperarureproject.R;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -49,8 +49,8 @@ public class RegistrationActivity extends AppCompatActivity {
             String txtPassword = etPassword.getText().toString();
             progressBar.setVisibility(View.VISIBLE);
 
-            if (TextUtils.isEmpty(txtName) ||
-                    TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword)) {
+            if (TextUtils.isEmpty(txtName) || TextUtils.isEmpty(txtEmail)
+                    || TextUtils.isEmpty(txtPassword)) {
                 Toast.makeText(RegistrationActivity.this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
             } else if (!Patterns.EMAIL_ADDRESS.matcher(txtEmail).matches()) {
                 etEmail.setError("Please provide valid email");
@@ -58,12 +58,12 @@ public class RegistrationActivity extends AppCompatActivity {
             } else if (txtPassword.length() < 6) {
                 Toast.makeText(RegistrationActivity.this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
             } else {
-                register(txtName,txtEmail, txtPassword);
+                register(txtName, txtEmail, txtPassword);
             }
         });
     }
 
-    private void register(String name,String email, String password) {
+    private void register(String name, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -75,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             String userId = user.getUid();
                             mRef = FirebaseDatabase.getInstance().getReference("Users")
                                     .child(userId);
-                            User currentUser = new User(name, email);
+                            UserData currentUser = new UserData(name, email);
                             mRef.setValue(currentUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -94,19 +94,17 @@ public class RegistrationActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(RegistrationActivity.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
                         }
-
-
                     }
                 });
     }
 
     //init the activity widgets
     private void initWidgets() {
-        etName = findViewById(R.id.et_reg_name);
-        etEmail = findViewById(R.id.et_reg_email);
-        etPassword = findViewById(R.id.et_reg_password);
-        btnRegistration = findViewById(R.id.btn_registration);
-        progressBar = findViewById(R.id.prg_bar_registration);
+        etName = findViewById(R.id.reg_et_name);
+        etEmail = findViewById(R.id.reg_et_email);
+        etPassword = findViewById(R.id.reg_et_password);
+        btnRegistration = findViewById(R.id.reg_btn_registration);
+        progressBar = findViewById(R.id.reg_progress_bar);
         progressBar.setVisibility(View.GONE);
     }
 }
