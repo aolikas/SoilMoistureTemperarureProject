@@ -44,9 +44,9 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         btnRegistration.setOnClickListener(view -> {
-            String txtName = etName.getText().toString();
-            String txtEmail = etEmail.getText().toString();
-            String txtPassword = etPassword.getText().toString();
+            String txtName = etName.getText().toString().trim();
+            String txtEmail = etEmail.getText().toString().trim();
+            String txtPassword = etPassword.getText().toString().trim();
             progressBar.setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(txtName) || TextUtils.isEmpty(txtEmail)

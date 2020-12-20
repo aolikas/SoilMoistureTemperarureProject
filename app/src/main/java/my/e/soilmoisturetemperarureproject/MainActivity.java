@@ -37,6 +37,7 @@ import java.util.Objects;
 import my.e.soilmoisturetemperarureproject.Adapters.FirebaseViewHolder;
 import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
 import my.e.soilmoisturetemperarureproject.Dialogs.SensorCreateDialog;
+import my.e.soilmoisturetemperarureproject.Dialogs.SensorDataDialog;
 import my.e.soilmoisturetemperarureproject.Dialogs.ShowUserInformation;
 import my.e.soilmoisturetemperarureproject.Model.UserData;
 
@@ -80,14 +81,25 @@ public class MainActivity extends AppCompatActivity  {
         String userId = mUser.getUid();
 
         mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("userSensors");
-        mRef.keepSynced(true);
+        //mRef.keepSynced(true);
 
         mOptions = new FirebaseRecyclerOptions.Builder<UserData>().setQuery(mRef,UserData.class).build();
         mAdapter = new FirebaseRecyclerAdapter<UserData, FirebaseViewHolder>(mOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FirebaseViewHolder firebaseViewHolder, int i, @NonNull UserData userData) {
+
+                String key = getRef(i).getKey();
+
                 firebaseViewHolder.sensorName.setText(String.format("%s", userData.getUserSensorName()));
                 firebaseViewHolder.sensorDescription.setText(userData.getUserSensorDescription());
+                firebaseViewHolder.view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), SensorDataDialog.class);
+                        intent.putExtra("key", key);
+                        startActivity(intent);
+                    }
+                });
             }
 
             @NonNull
@@ -144,7 +156,8 @@ public class MainActivity extends AppCompatActivity  {
                 return true;
 
             case R.id.show_account_info:
-                showAccountDetailsDialog();
+             //   showAccountDetailsDialog();
+                startActivity(new Intent(MainActivity.this, UserAccountActivity.class));
                 return true;
 
             default:
@@ -219,8 +232,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         mAdapter.stopListening();
     }
 }

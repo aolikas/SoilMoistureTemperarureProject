@@ -10,8 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoilMoistureTemperarureProject">
-        <activity android:name=".Auth.ResetPasswordActivity"
-            android:parentActivityName=".Auth.StartActivity"/>
+        <activity android:name=".UserAccountActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".Auth.ResetPasswordActivity"
+            android:parentActivityName=".Auth.StartActivity" />
 
         <service
             android:name=".FirebaseMessagingService"
@@ -29,6 +32,9 @@
         <activity
             android:name=".Auth.LoginActivity"
             android:parentActivityName=".Auth.StartActivity" />
+        <activity
+            android:name=".Dialogs.SensorDataDialog"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".Auth.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -26,8 +26,13 @@
     <string name="dialog_create_et_sensor_name">Name</string>
     <string name="dialog_create_et_sensor_description">Description</string>
 
-    <string name="dialog_show_user_title">Account Information</string>
+    <string name="dialog_show_user_title">User Account Information</string>
     <string name="dialog_show_user_name">User Name:</string>
     <string name="dialog_show_user_email">User Email:</string>
     <string name="dialog_show_user_unique_id">User unique Id:</string>
+    <string name="dialog_sensor_data_title">Information about sensor</string>
+    <string name="user_account_title">User Account Information</string>
+    <string name="user_account_id_title">User Id:</string>
+    <string name="user_account_btn_save">Save</string>
+    <string name="user_account_btn_delete">Delete Account</string>
 </resources>
