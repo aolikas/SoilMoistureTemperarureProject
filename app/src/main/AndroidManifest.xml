@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoilMoistureTemperarureProject">
-        <activity android:name=".UserAccountActivity"
+        <activity android:name=".ShowDetails.UserAccountActivity"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".Auth.ResetPasswordActivity"
@@ -33,7 +33,7 @@
             android:name=".Auth.LoginActivity"
             android:parentActivityName=".Auth.StartActivity" />
         <activity
-            android:name=".Dialogs.SensorDataDialog"
+            android:name=".ShowDetails.SensorDataActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".Auth.StartActivity">
             <intent-filter>

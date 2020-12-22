@@ -1,5 +1,10 @@
 package my.e.soilmoisturetemperarureproject.Model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserData {
     private String userName;
     private String userEmail;
@@ -59,6 +64,14 @@ public class UserData {
 
     public void setUserSensorMoistureCondition(String userSensorMoistureCondition) {
         this.userSensorMoistureCondition = userSensorMoistureCondition;
+    }
+
+    @Exclude
+    public Map<String, Object> toMapUserNameEmail() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("userName", userName);
+        result.put("userEmail", userEmail);
+        return result;
     }
 }
 

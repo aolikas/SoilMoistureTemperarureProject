@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -18,13 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,16 +27,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Objects;
-
 import my.e.soilmoisturetemperarureproject.Adapters.FirebaseViewHolder;
 import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
 import my.e.soilmoisturetemperarureproject.Dialogs.SensorCreateDialog;
-import my.e.soilmoisturetemperarureproject.Dialogs.SensorDataDialog;
-import my.e.soilmoisturetemperarureproject.Dialogs.ShowUserInformation;
 import my.e.soilmoisturetemperarureproject.Model.UserData;
+import my.e.soilmoisturetemperarureproject.ShowDetails.SensorDataActivity;
+import my.e.soilmoisturetemperarureproject.ShowDetails.UserAccountActivity;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
@@ -58,7 +51,7 @@ public class MainActivity extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               openCreateSensorDialog();
+                openCreateSensorDialog();
             }
         });
 
@@ -83,7 +76,7 @@ public class MainActivity extends AppCompatActivity  {
         mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("userSensors");
         //mRef.keepSynced(true);
 
-        mOptions = new FirebaseRecyclerOptions.Builder<UserData>().setQuery(mRef,UserData.class).build();
+        mOptions = new FirebaseRecyclerOptions.Builder<UserData>().setQuery(mRef, UserData.class).build();
         mAdapter = new FirebaseRecyclerAdapter<UserData, FirebaseViewHolder>(mOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FirebaseViewHolder firebaseViewHolder, int i, @NonNull UserData userData) {
@@ -95,7 +88,7 @@ public class MainActivity extends AppCompatActivity  {
                 firebaseViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), SensorDataDialog.class);
+                        Intent intent = new Intent(getApplicationContext(), SensorDataActivity.class);
                         intent.putExtra("key", key);
                         startActivity(intent);
                     }
@@ -105,7 +98,7 @@ public class MainActivity extends AppCompatActivity  {
             @NonNull
             @Override
             public FirebaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data,parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data, parent, false);
                 return new FirebaseViewHolder(view);
             }
         };
@@ -151,12 +144,8 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.log_out:
                 logOutUser();
                 return true;
-            case R.id.delete_account:
-                deleteUserAccount();
-                return true;
 
             case R.id.show_account_info:
-             //   showAccountDetailsDialog();
                 startActivity(new Intent(MainActivity.this, UserAccountActivity.class));
                 return true;
 
@@ -171,12 +160,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
 
-    private void showAccountDetailsDialog() {
-        ShowUserInformation showUserInformation = new ShowUserInformation();
-        showUserInformation.show(getSupportFragmentManager(), "userInformationDialog");
-    }
-
-
     private void logOutUser() {
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
@@ -185,44 +168,6 @@ public class MainActivity extends AppCompatActivity  {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-    }
-
-    private void deleteUserAccount() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("Are your sure?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                assert user != null;
-                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this,
-                                    "Account Deleted", Toast.LENGTH_SHORT).show();
-                            Intent intent = (new Intent(MainActivity.this, StartActivity.class));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(MainActivity.this,
-                                    Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-            }
-        });
-        builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     @Override
