@@ -28,11 +28,11 @@
 
     <string name="user_account_title">User Account Information</string>
     <string name="user_account_id_title">User Id:</string>
-    <string name="user_account_btn_save">Save</string>
+    <string name="user_account_btn_update">Update</string>
     <string name="user_account_btn_delete">Delete Account</string>
     <string name="user_account_btn_copy">Copy ID</string>
     <string name="sensor_data_title">Sensor Data</string>
     <string name="sensor_data_id_title">Sensor Id</string>
-    <string name="sensor_data_btn_save">Save new Data</string>
+    <string name="sensor_data_btn_update">Update</string>
     <string name="sensor_data_btn_delete">Delete Sensor</string>
 </resources>

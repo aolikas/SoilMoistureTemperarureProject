@@ -2,6 +2,7 @@ package my.e.soilmoisturetemperarureproject.Model;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +72,14 @@ public class UserData {
         HashMap<String, Object> result = new HashMap<>();
         result.put("userName", userName);
         result.put("userEmail", userEmail);
+        return result;
+    }
+
+    @Exclude
+    public Map<String, Object> toMapSensorData() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("userSensorName", userSensorName);
+        result.put("userSensorDescription", userSensorDescription);
         return result;
     }
 }

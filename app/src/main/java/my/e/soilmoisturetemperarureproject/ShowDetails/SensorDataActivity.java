@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,14 +27,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
+import my.e.soilmoisturetemperarureproject.MainActivity;
 import my.e.soilmoisturetemperarureproject.Model.UserData;
 import my.e.soilmoisturetemperarureproject.R;
 
 public class SensorDataActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView txtSensorId;
-    private EditText etSensorName, etSensorDescription;
-    private Button btnCopy, btnSave, btnDelete;
+    private TextInputEditText etSensorName, etSensorDescription;
+    private Button btnCopy, btnUpdate, btnDelete;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -56,7 +63,7 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
         getSensorData();
 
         btnCopy.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
 
         copySensorId();
@@ -96,8 +103,30 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
                 Toast.LENGTH_SHORT).show();
     }
 
-    private void saveNewSensorData() {
+    private void updateNewSensorData() {
+        String name = etSensorName.getText().toString();
+        String description = etSensorDescription.getText().toString();
 
+        UserData userData = new UserData(name, description,null);
+        Map<String, Object> dataUpdate = userData.toMapSensorData();
+        String key = getIntent().getStringExtra("key");
+        mRef.child(key).updateChildren(dataUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Toast.makeText(SensorDataActivity.this, "Sensor Data updated", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(SensorDataActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(SensorDataActivity.this, "", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void deleteSensor() {
+        String key = getIntent().getStringExtra("key");
+        mRef.child(key).removeValue();
+        startActivity(new Intent(SensorDataActivity.this, MainActivity.class));
     }
 
     private void initWidget() {
@@ -105,7 +134,7 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
         etSensorDescription = findViewById(R.id.sensor_data_description);
         txtSensorId = findViewById(R.id.sensor_data_id);
         btnCopy = findViewById(R.id.sensor_data_btn_copy);
-        btnSave = findViewById(R.id.sensor_data_btn_save);
+        btnUpdate = findViewById(R.id.sensor_data_btn_update);
         btnDelete = findViewById(R.id.sensor_data_btn_delete);
     }
 
@@ -115,8 +144,10 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.sensor_data_btn_copy:
                 copySensorId();
-            case R.id.sensor_data_btn_save:
+            case R.id.sensor_data_btn_update:
+                updateNewSensorData();
             case R.id.sensor_data_btn_delete:
+                deleteSensor();
         }
 
     }

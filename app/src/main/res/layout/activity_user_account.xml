@@ -68,7 +68,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/user_account_btn_save"
+        android:id="@+id/user_account_btn_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_account_et_email"
@@ -80,13 +80,13 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/user_account_btn_save"/>
+        android:text="@string/user_account_btn_update"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/user_account_btn_delete_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_account_btn_save"
+        android:layout_below="@+id/user_account_btn_update"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"

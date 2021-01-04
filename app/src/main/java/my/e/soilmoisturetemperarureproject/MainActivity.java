@@ -10,20 +10,23 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -34,13 +37,14 @@ import my.e.soilmoisturetemperarureproject.Model.UserData;
 import my.e.soilmoisturetemperarureproject.ShowDetails.SensorDataActivity;
 import my.e.soilmoisturetemperarureproject.ShowDetails.UserAccountActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
     private RecyclerView mRecyclerView;
-    private FirebaseRecyclerOptions<UserData> mOptions;
+
     private FirebaseRecyclerAdapter<UserData, FirebaseViewHolder> mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +60,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         initRecyclerView();
-        readAllSensors();
-    }
 
-    private void initRecyclerView() {
-        mRecyclerView = findViewById(R.id.main_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-
-    private void readAllSensors() {
         mAuth = FirebaseAuth.getInstance();
-
         FirebaseUser mUser = mAuth.getCurrentUser();
         assert mUser != null;
         String userId = mUser.getUid();
-
         mRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("userSensors");
-        //mRef.keepSynced(true);
+      //  readAllSensors();
 
-        mOptions = new FirebaseRecyclerOptions.Builder<UserData>().setQuery(mRef, UserData.class).build();
+        FirebaseRecyclerOptions<UserData> mOptions = new FirebaseRecyclerOptions.Builder<UserData>()
+                .setQuery(mRef, UserData.class)
+                .build();
+
         mAdapter = new FirebaseRecyclerAdapter<UserData, FirebaseViewHolder>(mOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FirebaseViewHolder firebaseViewHolder, int i, @NonNull UserData userData) {
-
                 String key = getRef(i).getKey();
-
-                firebaseViewHolder.sensorName.setText(String.format("%s", userData.getUserSensorName()));
+                firebaseViewHolder.sensorName.setText("" + userData.getUserSensorName());
                 firebaseViewHolder.sensorDescription.setText(userData.getUserSensorDescription());
                 firebaseViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -98,35 +91,26 @@ public class MainActivity extends AppCompatActivity {
             @NonNull
             @Override
             public FirebaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_data,
+                        parent, false);
                 return new FirebaseViewHolder(view);
             }
+
+
         };
+
+        mAdapter.notifyDataSetChanged();
+      //  mAdapter.startListening();
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
-    /*
-    public void findResultAndSendNotification(String search, List<SensorsData> list) {
-        for (SensorsData data : list) {
-            if (data.getHumidityCondition().contains(search)) {
-                Toast.makeText(this, "HeYYYYY", Toast.LENGTH_SHORT).show();
-
-                Notification notification = new NotificationCompat.Builder(this, CHANNEL_1_ID)
-                        .setSmallIcon(R.drawable.plant_icon2)
-                        .setContentTitle("Title")
-                        .setContentText("Watering")
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .build();
-
-                notificationManager.notify(1, notification);
-
-
-            }
-
-        }
+    private void initRecyclerView() {
+        mRecyclerView = findViewById(R.id.main_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+     //   mRecyclerView.setHasFixedSize(true);
     }
-     */
+
 
 
     @Override
@@ -177,8 +161,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mAdapter.stopListening();
+    protected void onStop() {
+        super.onStop();
+        if(mAdapter != null) {
+            mAdapter.stopListening();
+        }
     }
 }

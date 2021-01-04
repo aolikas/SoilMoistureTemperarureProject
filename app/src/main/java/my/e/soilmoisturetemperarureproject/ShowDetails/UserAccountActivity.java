@@ -13,12 +13,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,8 +38,8 @@ import my.e.soilmoisturetemperarureproject.R;
 public class UserAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView txtUserId;
-    private EditText etUserName, etUserEmail;
-    private Button btnSave, btnDelete, btnCopy;
+    private TextInputEditText etUserName, etUserEmail;
+    private Button btnUpdate, btnDelete, btnCopy;
 
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
@@ -63,7 +63,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         retrieveUserData();
 
-        btnSave.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
         btnCopy.setOnClickListener(this);
 
@@ -96,7 +96,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         txtUserId = findViewById(R.id.user_account_id);
         etUserName = findViewById(R.id.user_account_et_name);
         etUserEmail = findViewById(R.id.user_account_et_email);
-        btnSave = findViewById(R.id.user_account_btn_save);
+        btnUpdate = findViewById(R.id.user_account_btn_update);
         btnDelete = findViewById(R.id.user_account_btn_delete_user);
         btnCopy = findViewById(R.id.user_account_btn_copy);
     }
@@ -107,8 +107,8 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.user_account_btn_delete_user:
                 deleteUserAccount();
-            case R.id.user_account_btn_save:
-                saveNewData();
+            case R.id.user_account_btn_update:
+                updateNewData();
             case R.id.user_account_btn_copy:
                 copyUserId();
         }
@@ -122,7 +122,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         Toast.makeText(this, "User Id copied to Clipboard.", Toast.LENGTH_SHORT).show();
     }
 
-    private void saveNewData() {
+    private void updateNewData() {
         String name = etUserName.getText().toString();
         String email = etUserEmail.getText().toString();
 

@@ -16,15 +16,6 @@
             android:name=".Auth.ResetPasswordActivity"
             android:parentActivityName=".Auth.StartActivity" />
 
-        <service
-            android:name=".FirebaseMessagingService"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
-            </intent-filter>
-        </service>
-
         <activity android:name=".MainActivity" />
         <activity
             android:name=".Auth.RegistrationActivity"

@@ -60,7 +60,7 @@
         android:text="@string/user_account_btn_copy"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/sensor_data_btn_save"
+        android:id="@+id/sensor_data_btn_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -71,7 +71,7 @@
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/sensor_data_btn_save"/>
+        android:text="@string/sensor_data_btn_update"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/sensor_data_btn_delete"
