@@ -1,14 +1,16 @@
 package my.e.soilmoisturetemperarureproject.ShowDetails;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
+import java.util.Objects;
+
 
 import my.e.soilmoisturetemperarureproject.MainActivity;
 import my.e.soilmoisturetemperarureproject.Model.UserData;
@@ -43,13 +47,15 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
     private FirebaseUser mUser;
     private DatabaseReference mRef;
 
-
     private ClipboardManager mClipboardManager;
+
+    private String mKey;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_data);
+
         initWidget();
 
         mAuth = FirebaseAuth.getInstance();
@@ -59,31 +65,29 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
         mRef = FirebaseDatabase.getInstance().getReference().child("Users")
                 .child(userId).child("userSensors");
 
-        mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        mKey = getIntent().getStringExtra("key");
+
         getSensorData();
 
-        btnCopy.setOnClickListener(this);
-        btnUpdate.setOnClickListener(this);
-        btnDelete.setOnClickListener(this);
+        mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-        copySensorId();
     }
 
     private void getSensorData() {
-        String key = getIntent().getStringExtra("key");
-        mRef.child(key).addValueEventListener(new ValueEventListener() {
+        mRef.child(mKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     UserData userData = snapshot.getValue(UserData.class);
                     assert userData != null;
                     etSensorName.setText(userData.getUserSensorName());
                     etSensorDescription.setText(userData.getUserSensorDescription());
-                    txtSensorId.setText(key);
+                    txtSensorId.setText(mKey);
                 } else {
                     Toast.makeText(SensorDataActivity.this, "Sensor does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(SensorDataActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -94,9 +98,9 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
 
     private void copySensorId() {
 
-                String sensorId = txtSensorId.getText().toString();
-                ClipData mClipData = ClipData.newPlainText("sensorId", sensorId);
-                mClipboardManager.setPrimaryClip(mClipData);
+        //  String sensorId = txtSensorId.getText().toString();
+        ClipData mClipData = ClipData.newPlainText("sensorId", mKey);
+        mClipboardManager.setPrimaryClip(mClipData);
 
         Toast.makeText(this,
                 "Sensor Id copied to Clipboard.",
@@ -104,16 +108,16 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updateNewSensorData() {
-        String name = etSensorName.getText().toString();
-        String description = etSensorDescription.getText().toString();
+        String name = Objects.requireNonNull(etSensorName.getText()).toString();
+        String description = Objects.requireNonNull(etSensorDescription.getText()).toString();
 
-        UserData userData = new UserData(name, description,null);
+        UserData userData = new UserData(name, description, null);
         Map<String, Object> dataUpdate = userData.toMapSensorData();
-        String key = getIntent().getStringExtra("key");
-        mRef.child(key).updateChildren(dataUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        mRef.child(mKey).updateChildren(dataUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     Toast.makeText(SensorDataActivity.this, "Sensor Data updated", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SensorDataActivity.this, MainActivity.class));
                 } else {
@@ -124,18 +128,56 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void deleteSensor() {
-        String key = getIntent().getStringExtra("key");
-        mRef.child(key).removeValue();
-        startActivity(new Intent(SensorDataActivity.this, MainActivity.class));
+        AlertDialog.Builder builder = new AlertDialog.Builder(SensorDataActivity.this);
+        builder.setMessage("Are you sure you want to delete this sensor?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mRef.child(mKey).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(SensorDataActivity.this,
+                                    "Sensor deleted", Toast.LENGTH_SHORT).show();
+                            Intent intent = (new Intent(SensorDataActivity.this, MainActivity.class));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(SensorDataActivity.this,
+                                    Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
 
     private void initWidget() {
-        etSensorName = findViewById(R.id.sensor_data_name);
-        etSensorDescription = findViewById(R.id.sensor_data_description);
-        txtSensorId = findViewById(R.id.sensor_data_id);
+        etSensorName = findViewById(R.id.sensor_data_et_name);
+        etSensorDescription = findViewById(R.id.sensor_data_et_description);
+        txtSensorId = findViewById(R.id.sensor_data_txt_id);
+
         btnCopy = findViewById(R.id.sensor_data_btn_copy);
         btnUpdate = findViewById(R.id.sensor_data_btn_update);
         btnDelete = findViewById(R.id.sensor_data_btn_delete);
+
+        btnCopy.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -144,11 +186,13 @@ public class SensorDataActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
             case R.id.sensor_data_btn_copy:
                 copySensorId();
+                break;
             case R.id.sensor_data_btn_update:
                 updateNewSensorData();
+                break;
             case R.id.sensor_data_btn_delete:
                 deleteSensor();
+                break;
         }
-
     }
 }

@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
-import java.util.Objects;
+
 
 import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
 import my.e.soilmoisturetemperarureproject.MainActivity;
@@ -63,10 +63,6 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         retrieveUserData();
 
-        btnUpdate.setOnClickListener(this);
-        btnDelete.setOnClickListener(this);
-        btnCopy.setOnClickListener(this);
-
         mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     }
 
@@ -75,8 +71,8 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    UserData userData = snapshot.getValue(UserData.class) ;
+                if (snapshot.exists()) {
+                    UserData userData = snapshot.getValue(UserData.class);
                     assert userData != null;
                     etUserName.setText(userData.getUserName());
                     etUserEmail.setText(userData.getUserEmail());
@@ -85,6 +81,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
                     Toast.makeText(UserAccountActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(UserAccountActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -99,6 +96,9 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         btnUpdate = findViewById(R.id.user_account_btn_update);
         btnDelete = findViewById(R.id.user_account_btn_delete_user);
         btnCopy = findViewById(R.id.user_account_btn_copy);
+        btnUpdate.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+        btnCopy.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -107,10 +107,13 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.user_account_btn_delete_user:
                 deleteUserAccount();
+                break;
             case R.id.user_account_btn_update:
                 updateNewData();
+                break;
             case R.id.user_account_btn_copy:
                 copyUserId();
+                break;
         }
 
     }
@@ -129,7 +132,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         mUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
 
                     UserData userData = new UserData(name, email);
 
@@ -137,7 +140,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
                     mRef.updateChildren(dataUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
                                 startActivity(new Intent(UserAccountActivity.this, MainActivity.class));
                                 Toast.makeText(UserAccountActivity.this, "Data updated.", Toast.LENGTH_SHORT).show();
                             } else {
@@ -153,38 +156,32 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
     private void deleteUserAccount() {
         AlertDialog.Builder builder = new AlertDialog.Builder(UserAccountActivity.this);
-        builder.setMessage("Are your sure?");
+        builder.setMessage("Are your sure to delete this account?");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 assert user != null;
-                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(UserAccountActivity.this,
-                                    "Account Deleted", Toast.LENGTH_SHORT).show();
-                            Intent intent = (new Intent(UserAccountActivity.this, StartActivity.class));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(UserAccountActivity.this,
-                                    Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
+                user.delete();
+                mRef.removeValue();
+                Toast.makeText(UserAccountActivity.this,
+                        "Account Deleted", Toast.LENGTH_SHORT).show();
+                Intent intent = (new Intent(UserAccountActivity.this, StartActivity.class));
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
+
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+
             }
         });
+
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }

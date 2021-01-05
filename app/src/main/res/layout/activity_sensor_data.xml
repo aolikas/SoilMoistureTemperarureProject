@@ -16,7 +16,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sensor_data_name"
+        android:id="@+id/sensor_data_et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -25,7 +25,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/sensor_data_description"
+        android:id="@+id/sensor_data_et_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -42,7 +42,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
     <TextView
-        android:id="@+id/sensor_data_id"
+        android:id="@+id/sensor_data_txt_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -86,4 +86,5 @@
         android:backgroundTint="@color/red"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/sensor_data_btn_delete"/>
+
 </LinearLayout>

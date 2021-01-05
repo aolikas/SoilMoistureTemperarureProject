@@ -12,6 +12,7 @@ public class FirebaseViewHolder extends RecyclerView.ViewHolder {
 
     public TextView sensorName;
     public TextView sensorDescription;
+    public TextView sensorMoistureCondition;
     public View view;
 
 
@@ -19,6 +20,7 @@ public class FirebaseViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         sensorName = itemView.findViewById(R.id.item_data_sensor_name);
         sensorDescription = itemView.findViewById(R.id.item_data_sensor_description);
+        sensorMoistureCondition = itemView.findViewById(R.id.item_data_sensor_moisture_condition);
         view = itemView;
     }
 }

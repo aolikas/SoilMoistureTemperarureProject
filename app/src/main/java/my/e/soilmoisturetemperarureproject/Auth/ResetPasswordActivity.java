@@ -40,7 +40,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String txtEmail = etEmail.getText().toString();
+                String txtEmail = etEmail.getText().toString().trim();
                 resetUserPassword(txtEmail);
             }
         });

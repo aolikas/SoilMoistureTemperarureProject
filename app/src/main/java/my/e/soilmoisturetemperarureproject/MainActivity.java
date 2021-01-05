@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity  {
                 String key = getRef(i).getKey();
                 firebaseViewHolder.sensorName.setText("" + userData.getUserSensorName());
                 firebaseViewHolder.sensorDescription.setText(userData.getUserSensorDescription());
+                firebaseViewHolder.sensorMoistureCondition.setText(userData.getUserSensorMoistureCondition());
                 firebaseViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
