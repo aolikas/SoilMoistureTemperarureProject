@@ -1,14 +1,20 @@
-package my.e.soilmoisturetemperarureproject;
+package my.e.wateryourplants;
 
 import androidx.annotation.NonNull;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -23,19 +29,25 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-import my.e.soilmoisturetemperarureproject.Adapters.FirebaseViewHolder;
-import my.e.soilmoisturetemperarureproject.Auth.StartActivity;
-import my.e.soilmoisturetemperarureproject.Dialogs.SensorCreateDialog;
-import my.e.soilmoisturetemperarureproject.Model.UserData;
-import my.e.soilmoisturetemperarureproject.ShowDetails.SensorDataActivity;
-import my.e.soilmoisturetemperarureproject.ShowDetails.UserAccountActivity;
+import my.e.wateryourplants.Adapters.FirebaseViewHolder;
+import my.e.wateryourplants.Auth.StartActivity;
+import my.e.wateryourplants.Dialogs.SensorCreateDialog;
+import my.e.wateryourplants.Model.UserData;
+import my.e.wateryourplants.ShowDetails.SensorDataActivity;
+import my.e.wateryourplants.ShowDetails.UserAccountActivity;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -44,6 +56,8 @@ public class MainActivity extends AppCompatActivity  {
     private RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter<UserData, FirebaseViewHolder> mAdapter;
+
+    private String condition;
 
 
     @Override
@@ -79,6 +93,8 @@ public class MainActivity extends AppCompatActivity  {
                 firebaseViewHolder.sensorName.setText("" + userData.getUserSensorName());
                 firebaseViewHolder.sensorDescription.setText(userData.getUserSensorDescription());
                 firebaseViewHolder.sensorMoistureCondition.setText(userData.getUserSensorMoistureCondition());
+                condition = userData.getUserSensorMoistureCondition();
+
                 firebaseViewHolder.view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -97,12 +113,13 @@ public class MainActivity extends AppCompatActivity  {
                 return new FirebaseViewHolder(view);
             }
 
-
         };
 
         mAdapter.notifyDataSetChanged();
       //  mAdapter.startListening();
         mRecyclerView.setAdapter(mAdapter);
+
+        addNotification();
 
     }
 
@@ -154,6 +171,77 @@ public class MainActivity extends AppCompatActivity  {
         startActivity(intent);
         finish();
     }
+
+    private void createNotification() {
+        FirebaseMessaging.getInstance().subscribeToTopic("some")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Done";
+                        if(!task.isSuccessful()) {
+                            msg = "Failed";
+                        }
+                    }
+                });
+    }
+
+    private void notification(){
+
+        String channelId = "notification";
+        String title = "Watering App";
+        String msg = "It's time for water";
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "n", channelId, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                getApplicationContext(), channelId)
+                .setSmallIcon(R.drawable.ic_baseline_notifications)
+                .setContentTitle(title)
+                .setContentText(msg)
+                .setVibrate(new long[] {1000, 1000, 1000, 1000, 1000})
+                .setOnlyAlertOnce(true)
+                .setAutoCancel(true);
+
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
+        managerCompat.notify(101, builder.build());
+    }
+
+    private void addNotification() {
+        mRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            notification();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 
     @Override
     protected void onStart() {

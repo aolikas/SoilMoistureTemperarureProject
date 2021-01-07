@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject;
+package my.e.wateryourplants;
 
 import android.content.Context;
 

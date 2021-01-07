@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Dialogs;
+package my.e.wateryourplants.Dialogs;
 
 import android.app.AlertDialog;
 
@@ -24,8 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-import my.e.soilmoisturetemperarureproject.Model.UserData;
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.Model.UserData;
+import my.e.wateryourplants.R;
 
 
 public class SensorCreateDialog extends AppCompatDialogFragment {

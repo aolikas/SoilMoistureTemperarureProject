@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Auth;
+package my.e.wateryourplants.Auth;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.R;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener {
 

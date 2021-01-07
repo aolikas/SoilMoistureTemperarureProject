@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Auth;
+package my.e.wateryourplants.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.R;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 

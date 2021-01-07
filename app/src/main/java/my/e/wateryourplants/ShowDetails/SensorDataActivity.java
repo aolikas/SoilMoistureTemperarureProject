@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.ShowDetails;
+package my.e.wateryourplants.ShowDetails;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -33,9 +33,9 @@ import java.util.Map;
 import java.util.Objects;
 
 
-import my.e.soilmoisturetemperarureproject.MainActivity;
-import my.e.soilmoisturetemperarureproject.Model.UserData;
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.MainActivity;
+import my.e.wateryourplants.Model.UserData;
+import my.e.wateryourplants.R;
 
 public class SensorDataActivity extends AppCompatActivity implements View.OnClickListener {
 

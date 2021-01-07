@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Auth;
+package my.e.wateryourplants.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,9 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
-import my.e.soilmoisturetemperarureproject.MainActivity;
-import my.e.soilmoisturetemperarureproject.Model.UserData;
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.MainActivity;
+import my.e.wateryourplants.Model.UserData;
+import my.e.wateryourplants.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 

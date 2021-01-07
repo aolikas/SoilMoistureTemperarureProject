@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Model;
+package my.e.wateryourplants.Model;
 
 import com.google.firebase.database.Exclude;
 

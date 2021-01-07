@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="my.e.soilmoisturetemperarureproject">
+    package="my.e.wateryourplants">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,29 +10,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SoilMoistureTemperarureProject">
-        <activity android:name=".ShowDetails.UserAccountActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity
-            android:name=".Auth.ResetPasswordActivity"
-            android:parentActivityName=".Auth.StartActivity" />
 
-        <activity android:name=".MainActivity" />
+        <activity android:name="my.e.wateryourplants.ShowDetails.UserAccountActivity"
+            android:parentActivityName="my.e.wateryourplants.MainActivity"/>
         <activity
-            android:name=".Auth.RegistrationActivity"
-            android:parentActivityName=".Auth.StartActivity" />
+            android:name="my.e.wateryourplants.Auth.ResetPasswordActivity"
+            android:parentActivityName="my.e.wateryourplants.Auth.StartActivity" />
+
+        <activity android:name="my.e.wateryourplants.MainActivity" />
         <activity
-            android:name=".Auth.LoginActivity"
-            android:parentActivityName=".Auth.StartActivity" />
+            android:name="my.e.wateryourplants.Auth.RegistrationActivity"
+            android:parentActivityName="my.e.wateryourplants.Auth.StartActivity" />
         <activity
-            android:name=".ShowDetails.SensorDataActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".Auth.StartActivity">
+            android:name="my.e.wateryourplants.Auth.LoginActivity"
+            android:parentActivityName="my.e.wateryourplants.Auth.StartActivity" />
+        <activity
+            android:name="my.e.wateryourplants.ShowDetails.SensorDataActivity"
+            android:parentActivityName="my.e.wateryourplants.MainActivity" />
+        <activity android:name="my.e.wateryourplants.Auth.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+       
     </application>
 
 </manifest>

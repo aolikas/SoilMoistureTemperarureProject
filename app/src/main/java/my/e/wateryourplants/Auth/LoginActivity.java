@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Auth;
+package my.e.wateryourplants.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +18,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import my.e.soilmoisturetemperarureproject.MainActivity;
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.MainActivity;
+import my.e.wateryourplants.R;
 
 public class LoginActivity extends AppCompatActivity {
 

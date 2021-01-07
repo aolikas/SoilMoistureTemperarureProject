@@ -1,4 +1,4 @@
-package my.e.soilmoisturetemperarureproject.Adapters;
+package my.e.wateryourplants.Adapters;
 
 import android.view.View;
 import android.widget.TextView;
@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import my.e.soilmoisturetemperarureproject.R;
+import my.e.wateryourplants.R;
 
 public class FirebaseViewHolder extends RecyclerView.ViewHolder {
 
