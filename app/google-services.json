@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "270442159406",
-    "firebase_url": "https://soilmoisturetemperatureproject.firebaseio.com",
-    "project_id": "soilmoisturetemperatureproject",
-    "storage_bucket": "soilmoisturetemperatureproject.appspot.com"
+    "project_number": "940279715273",
+    "firebase_url": "https://wateryourplants-9e6c2-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "wateryourplants-9e6c2",
+    "storage_bucket": "wateryourplants-9e6c2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:270442159406:android:9a483a5028d2c57564aebf",
+        "mobilesdk_app_id": "1:940279715273:android:8e0478c6f600c8c35f0418",
         "android_client_info": {
-          "package_name": "my.e.soilmoisturetemperarureproject"
+          "package_name": "my.e.wateryourplants"
         }
       },
       "oauth_client": [
         {
-          "client_id": "270442159406-2tfse0lq0t8rpdga7n5bfps61it74tpc.apps.googleusercontent.com",
+          "client_id": "940279715273-h4v5ovqrgn7i2rnav9rcjvrdun5a7hfa.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "my.e.soilmoisturetemperarureproject",
+            "package_name": "my.e.wateryourplants",
             "certificate_hash": "32078cf2c3f5485e0d19fc3798d43181275adc8b"
           }
         },
         {
-          "client_id": "270442159406-afetoou1mmtm2958914vofep7bpvscrf.apps.googleusercontent.com",
+          "client_id": "940279715273-1lr4arm5786gc5f7g5r2elt4nphlk70e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB0PVNlCLAzeht2BhKEJNs8P4S3eD80iLs"
+          "current_key": "AIzaSyB-13D_a9eIjV3KfbR2rseVEiI3YbKDKm4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "270442159406-afetoou1mmtm2958914vofep7bpvscrf.apps.googleusercontent.com",
+              "client_id": "940279715273-1lr4arm5786gc5f7g5r2elt4nphlk70e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
